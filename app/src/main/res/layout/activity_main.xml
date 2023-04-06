@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#19688B">
+
+
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/menu" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_32sdp"
+            android:text="Budgt Manager Help"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_17ssp" />
+
+
+        <ImageView
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginLeft="@dimen/_28sdp"
+            android:src="@drawable/calendar" />
+
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:src="@drawable/premium" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:cardBackgroundColor="#DAF5FF"
+        app:cardCornerRadius="@dimen/_12sdp"
+        android:id="@+id/addInconme"
+        app:cardElevation="@dimen/_8sdp">
+
+
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:src="@drawable/money" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="ADD INCOME"
+            android:textColor="#19688B"
+            android:textSize="@dimen/_20sdp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:cardBackgroundColor="#D4E8FF"
+        app:cardCornerRadius="@dimen/_12sdp"
+        android:id="@+id/addExpenses"
+        app:cardElevation="@dimen/_8sdp">
+
+
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:src="@drawable/pay" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="ADD EXPENSES"
+            android:textColor="#2D7A9C"
+            android:textSize="@dimen/_20sdp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:cardBackgroundColor="#FFECDD"
+        android:id="@+id/allTransaction"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="@dimen/_8sdp">
+
+
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:src="@drawable/planning" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="ALL TRANSACTION"
+            android:textColor="#E38A44"
+            android:textSize="@dimen/_20sdp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/reports"
+        app:cardBackgroundColor="#FFDADB"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="@dimen/_8sdp">
+
+
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:src="@drawable/statistics" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="REPORTS"
+            android:textColor="#FF7175"
+            android:textSize="@dimen/_20sdp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/category"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:visibility="visible"
+        app:cardBackgroundColor="#CDE6B2"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="@dimen/_8sdp">
+
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:src="@drawable/category" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="CATEGORY"
+            android:textColor="#56BA2B"
+            android:textSize="@dimen/_20sdp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:visibility="visible"
+        android:id="@+id/mode"
+        app:cardBackgroundColor="#B8ECEA"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="@dimen/_8sdp">
+
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:src="@drawable/mode" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="MODE"
+            android:textColor="#56AEAA"
+            android:textSize="@dimen/_20sdp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
