@@ -3,6 +3,8 @@ package com.musict.budgetexpensemanagerhelp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import androidx.core.view.GravityCompat
 import com.musict.budgetexpensemanagerhelp.databinding.ActivityMainBinding
 import java.security.AllPermission
 import kotlin.math.exp
@@ -79,6 +81,18 @@ class MainActivity : AppCompatActivity() {
             startActivity(m)
 
         }
+
+
+binding.menuopen.setOnClickListener {
+
+
+    binding.drawalLayout.openDrawer(GravityCompat.START)
+}
+
+
+
+
+
 
 
 
