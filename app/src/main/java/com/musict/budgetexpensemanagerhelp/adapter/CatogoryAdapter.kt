@@ -39,7 +39,9 @@ class CatogoryAdapter(var listofTypes: ArrayList<modelclass>,var n : ((String) -
 
     override fun onBindViewHolder(holder: myViewHolder, position: Int) {
 
-        holder.categoryName.setText(listofTypes[position].category)
+        holder.categoryName.text = listofTypes[position].category
+
+
 
         holder.categoryName.setOnClickListener {
 
@@ -51,12 +53,8 @@ class CatogoryAdapter(var listofTypes: ArrayList<modelclass>,var n : ((String) -
 
         }
 
-        if (position == pos) {
 
-            holder.categoryName.isChecked = true
-        } else {
-            holder.categoryName.isChecked = false
-        }
+        holder.categoryName.isChecked = position == pos
 
 
     }

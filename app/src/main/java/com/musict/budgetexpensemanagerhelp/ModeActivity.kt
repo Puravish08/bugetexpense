@@ -14,7 +14,7 @@ class ModeActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityModeBinding
     lateinit var database: ModeSqlLite
-
+    lateinit var  modeadan: ModeAdapter
 
 
 
@@ -35,23 +35,44 @@ class ModeActivity : AppCompatActivity() {
 
 
 
-        binding.btnAdd.setOnClickListener{
+        binding.btnAdd.setOnClickListener {
 
 
-            var ModeName =binding.edtMode.text.toString()
+            var ModeName = binding.edtMode.text.toString()
 
 
 
             database.modeinsert(ModeName)
 
+
+        }
             var mlist = database.displaymode()
 
 //            val adapter = ModeAdapter(mlist)
-//            val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+//
+//            val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 //
 //            binding.rcvMode.layoutManager = manager
 //            binding.rcvMode.adapter = adapter
 
 
 
-    }}}
+
+            binding.imgback.setOnClickListener {
+
+                onBackPressed()
+
+            }
+
+
+            binding.imgok.setOnClickListener {
+
+                onBackPressed()
+
+            }
+
+
+
+    }
+
+}

@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_60ssp"
             android:orientation="vertical"
-            android:background="#2D528E"
+            android:background="#8B3919"
             >
 
 
@@ -96,7 +96,7 @@
                 android:id="@+id/btndelet"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
-                android:backgroundTint="#285A97"
+                android:backgroundTint="#8B3919"
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_8sdp"/>
 

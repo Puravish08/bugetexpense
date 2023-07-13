@@ -39,13 +39,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvCategory"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_height="@dimen/_300sdp"/>
-
-
-
-
-
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_2sdp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

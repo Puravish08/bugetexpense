@@ -14,7 +14,8 @@ class ModeAdapter(var modeofTypes: ArrayList<ModeModel>,var n : ((String) -> Uni
     RecyclerView.Adapter<ModeAdapter.myViewHolder>() {
 
 
-    var pos=-1
+
+    var pos= -1
 
 
     class myViewHolder (itemview : View) : RecyclerView.ViewHolder(itemview)
@@ -56,20 +57,9 @@ class ModeAdapter(var modeofTypes: ArrayList<ModeModel>,var n : ((String) -> Uni
             notifyDataSetChanged()
 
 
-
-            if (position==pos)
-            {
-
-                holder.modeName.isChecked = true
-            }
-            else
-            {
-                holder.modeName.isChecked =false
-            }
-
-
         }
 
+        holder.modeName.isChecked = position==pos
 
 
 

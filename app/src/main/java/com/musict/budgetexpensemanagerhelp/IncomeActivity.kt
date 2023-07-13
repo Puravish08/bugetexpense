@@ -1,7 +1,9 @@
 package com.musict.budgetexpensemanagerhelp
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -40,6 +42,7 @@ class IncomeActivity : AppCompatActivity() {
     var datevalue = ""
     var mode = " "
     var time = ""
+
     var category = ""
     var storage_id = 0
 
@@ -68,34 +71,37 @@ class IncomeActivity : AppCompatActivity() {
     }
 
 
+
+    @SuppressLint("CutPasteId")
     private fun initview2() {
 
 
         tvdate = findViewById(R.id.tvDate)
         edtamount = findViewById(R.id.edtamount)
         edtnote = findViewById(R.id.edtnote)
-
         txttitleincome = findViewById(R.id.txtTitle)
-
-
 
 
 
         if (intent != null && intent.hasExtra("updateRecord")) {
 
 
+
             flag = 1
-            var newamt: String? = intent.getStringExtra("amount")
-            var notenew: String? = intent.getStringExtra("note")
-            var newtitle: String? = intent.getStringExtra("title")
-            var needonebtn: String? = intent.getStringExtra("icone")
+           val newamt: String? = intent.getStringExtra("amount")
+           val notenew: String? = intent.getStringExtra("note")
+           val newtitle: String? = intent.getStringExtra("title")
+           val needonebtn: String? = intent.getStringExtra("icone")
             storage_id = intent.getIntExtra("id", 0)
 
 
             edtamount.setText(newamt)
             edtnote.setText(notenew)
-            txttitleincome.setText(newtitle)
-            ibinding.imgok.setText(needonebtn)
+            txttitleincome.text = newtitle
+            ibinding.imgok.text = needonebtn
+
+
+
 
 
         }
@@ -106,7 +112,19 @@ class IncomeActivity : AppCompatActivity() {
         val currentDateAndTime: String = simpleDateFormat.format(Date())
         textView.text = currentDateAndTime
 
+
+
+
+        textView.setOnClickListener {
+            openTimePicker()
+        }
+
+
+
         time = currentDateAndTime
+
+
+
 
         val textv: TextView = findViewById(R.id.tvDate)
         val simpleTimeFormat = SimpleDateFormat("  dd/MM/yyyy")
@@ -149,61 +167,70 @@ class IncomeActivity : AppCompatActivity() {
 
 
 
-            if (amount.isEmpty()) {
-                Toast.makeText(this, "Enter Please Amount", Toast.LENGTH_SHORT).show()
-            } else if (amount.length <= 1 || amount.length >= 10) {
-
-                Toast.makeText(this, "Enter Your Amount", Toast.LENGTH_SHORT).show()
-                Log.e("TAG", "amount: " + amount)
+            if (amount.isNotEmpty()) {
 
 
-            } else {
+                if (amount.isEmpty()) {
+                    Toast.makeText(this, "Enter Please Amount", Toast.LENGTH_SHORT).show()
+                } else if (amount.length <= 1 || amount.length >= 10) {
 
+                    Toast.makeText(this, "Enter Your Amount", Toast.LENGTH_SHORT).show()
+                    Log.e("TAG", "amount: $amount")
 
-                if (ibinding.rg.checkedRadioButtonId == -1) {
 
                 } else {
-                    var selectid: Int = ibinding.rg.checkedRadioButtonId
-                    var selecteRadioButton: RadioButton = findViewById(selectid)
-                    var text = selecteRadioButton.text.toString()
 
 
-                    if (text.equals("INCOME")) {
-                        type = 1
+                    if (ibinding.rg.checkedRadioButtonId == -1) {
 
                     } else {
-                        type = 2
+                        var selectid: Int = ibinding.rg.checkedRadioButtonId
+                        var selecteRadioButton: RadioButton = findViewById(selectid)
+                        var text = selecteRadioButton.text.toString()
+
+
+                        if (text.equals("INCOME")) {
+                            type = 1
+
+                        } else {
+                            type = 2
+                            amount = (amount.toInt() - amount.toInt() * 2).toString()
+                        }
+
+                        Log.e("TAG", "working: " + type)
                     }
 
-                    Log.e("TAG", "working: " + type)
                 }
 
-            }
+                if (flag == 1) {
+                    db1.updateUserData(amount, note, storage_id)
 
-            if (flag == 1) {
-                db1.updateUserData(amount, note, storage_id)
-
-            } else {
+                } else {
 
 
-                db1.insertIncomeExense(
+                    db1.insertIncomeExense(
 
-                    type,
-                    amount,
-                    note,
-                    time,
-                    datevalue,
-                    category,
-                    mode
+                        type,
+                        amount,
+                        note,
+                        time,
+                        datevalue,
+                        category,
+                        mode
 
 
-                )
-            }
+                    )
+                }
 
 //                Toast.makeText(this, "Click Your Note", Toast.LENGTH_SHORT).show()
 
-            var intent = Intent(this, TransactionActivity::class.java)
-            startActivity(intent)
+                var intent = Intent(this, TransactionActivity::class.java)
+                startActivity(intent)
+            }
+
+        else {
+                Toast.makeText(this, "Enter Please Value", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -211,9 +238,7 @@ class IncomeActivity : AppCompatActivity() {
 
         ibinding.imgCat.setOnClickListener {
 
-
             val dialog = Dialog(this)
-
 
             val dialogBinding = ActivityCustomRecycleDialogBinding.inflate(layoutInflater)
             dialog.setContentView(dialogBinding.root)
@@ -224,23 +249,20 @@ class IncomeActivity : AppCompatActivity() {
 
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-
-
             )
 
             val btncancel: AppCompatButton = dialog.findViewById(R.id.btncancel)
             val btnset: AppCompatButton = dialog.findViewById(R.id.btnset)
 
 
-
             btnset.setOnClickListener {
 
-                Toast.makeText(this, "click on yes", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Data is Set", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
 
             btncancel.setOnClickListener {
-                Toast.makeText(this, "click on Cancel", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Data is  Cancel", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
 
@@ -248,12 +270,15 @@ class IncomeActivity : AppCompatActivity() {
             val listofTypes = db1.displayCategory();
 
 
-            val adapter = CatogoryAdapter(listofTypes, { category ->
 
-                Log.e("TAG", "working: " + category)
+            val adapter = CatogoryAdapter(listofTypes) { category ->
+
                 this.category = category
+                ibinding.ttext.text = category
 
-            })
+            }
+
+
 
 
             val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -261,10 +286,7 @@ class IncomeActivity : AppCompatActivity() {
             dialogBinding.rcvCategory.layoutManager = manager
             dialogBinding.rcvCategory.adapter = adapter
 
-
-
             dialog.show()
-
 
         }
 
@@ -296,13 +318,13 @@ class IncomeActivity : AppCompatActivity() {
 
             btnsett.setOnClickListener {
 
-                Toast.makeText(this, "click on yes", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Data is Set", Toast.LENGTH_SHORT).show()
                 dialogmode.dismiss()
 
             }
 
             btncancelc.setOnClickListener {
-                Toast.makeText(this, "click on Cancel", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Data is Cancel", Toast.LENGTH_SHORT).show()
                 dialogmode.dismiss()
             }
             dialogmode.show()
@@ -311,12 +333,13 @@ class IncomeActivity : AppCompatActivity() {
             val modeofTypes = db2.displaymode();
 
 
-            val adapter = ModeAdapter(modeofTypes, { Modee ->
+            val adapter = ModeAdapter(modeofTypes) { Modee ->
 
                 mode = Modee
-                Log.e("TAG", "working: " + Modee)
+                    ibinding.ttmode.text = mode
+            }
 
-            })
+
             val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
             dialogBinding.rcvmode.layoutManager = manager
@@ -364,10 +387,9 @@ class IncomeActivity : AppCompatActivity() {
         }
         tvdate.setOnClickListener {
 
-            DatePickerDialog(
-                this, datapicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            DatePickerDialog(this, datapicker, myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+
         }
 //
 //
@@ -395,6 +417,31 @@ class IncomeActivity : AppCompatActivity() {
         tvdate.setText(sdf.format(myCalendar.time))
 
     }
+
+
+
+    private fun openTimePicker() {
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        val textView: TextView = findViewById(R.id.tvTime)
+
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                val selectedTime = String.format("%02d:%02d", currentHour, minute)
+                textView.text = selectedTime
+            },
+            currentHour,
+            currentMinute,
+            false
+        )
+
+        timePickerDialog.show()
+    }
+
 
 
 }

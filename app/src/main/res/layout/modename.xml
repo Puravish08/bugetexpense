@@ -15,13 +15,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sdp">
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="@dimen/_32sdp"
             android:layout_gravity="center"
             android:id="@+id/rbm"
-            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:text="" />
 

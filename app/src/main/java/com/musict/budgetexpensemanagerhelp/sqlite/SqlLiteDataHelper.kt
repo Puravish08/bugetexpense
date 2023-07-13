@@ -1,28 +1,38 @@
 package com.musict.budgetexpensemanagerhelp.sqlite
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Color
 import android.util.Log
+import android.widget.TextView
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.musict.budgetexpensemanagerhelp.modelclass.modelclass
 import com.musict.budgetexpensemanagerhelp.modelclass.tieddata
+import java.text.NumberFormat
+import java.util.Random
+import java.util.*
 
 class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categoriesDb", null, 1) {
 
-    var list = ArrayList<modelclass>()
-    var datastore = ArrayList<tieddata>()
+    private var list = ArrayList<modelclass>()
+    private var datastore = ArrayList<tieddata>()
 
 
 
 
     override fun onCreate(db: SQLiteDatabase?) {
 
-        var sql =
+        val sql =
             "create table categoriesTb(categories_id Integer Primary key autoincrement,categories text)"
         db?.execSQL(sql)
 
-        var sqll =
+        val sqll =
             "create table StorageTb(storage_id Integer Primary key autoincrement,type integer,amount integer,category text,date text,time text,mode text ,note text)"
         db?.execSQL(sqll)
 
@@ -40,28 +50,30 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
     fun categoriesinsert(categoriesN: String) {
 
-        var db = writableDatabase
+        val db = writableDatabase
 
-        var c = ContentValues()
+        val c = ContentValues()
 
         c.put("categories", categoriesN)
 
         db.insert("categoriesTb", null, c)
 
-
     }
 
 
+    @SuppressLint("Recycle")
     fun displayCategory(): ArrayList<modelclass> {
 
         list.clear()
 
 
-        var db = readableDatabase
+        val db = readableDatabase
 
-        var sql = "select * from categoriesTb"
 
-        var cursor = db.rawQuery(sql, null)
+
+        val sql = "select * from categoriesTb"
+
+        val cursor = db.rawQuery(sql, null)
 
 
         if (cursor.count > 0) {
@@ -72,11 +84,12 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
                 val categoryName = cursor.getString(1)
 
-                var model = modelclass(categoryName)
+                val model = modelclass(categoryName)
                 list.add(model)
 
             } while (cursor.moveToNext())
-        } else {
+        }
+        else {
 
             Log.e("TAG", "displayCategory: " + "no data found")
         }
@@ -101,8 +114,8 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
 //        datastore.clear()
 
-        var inexp = writableDatabase
-        var add = ContentValues()
+        val inexp = writableDatabase
+        val add = ContentValues()
 
         add.put("type", type)
         add.put("amount", amount)
@@ -117,12 +130,13 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
     }
 
+    @SuppressLint("Recycle")
     fun displayIncomeExpense(): ArrayList<tieddata> {
 
         datastore.clear()
 
 
-        var inexp = writableDatabase
+        val inexp = writableDatabase
         val sql2 = "select * from StorageTb"
         val cursor = inexp.rawQuery(sql2, null)
         if (cursor.count > 0) {
@@ -130,14 +144,14 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
             do {
 
-                var id = cursor.getInt(0)
-                var type = cursor.getInt(1)
-                var amount = cursor.getString(2)
-                var category = cursor.getString(3)
-                var date = cursor.getString(4)
-                var time = cursor.getString(5)
-                var mode = cursor.getString(6)
-                var note = cursor.getString(7)
+               val id = cursor.getInt(0)
+               val type = cursor.getInt(1)
+               val amount = cursor.getString(2)
+               val category = cursor.getString(3)
+               val date = cursor.getString(4)
+               val time = cursor.getString(5)
+               val mode = cursor.getString(6)
+               val note = cursor.getString(7)
 
 
                 val modetwo = tieddata(id,type, amount, category, date, time, mode, note)
@@ -146,7 +160,7 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
                 Log.e(
                     "TAG",
-                    "displayIncomeExpense: " + type + " " + amount + " " + category + " " + date + " " + time + " " + " " + mode + " " + note
+                    "displayIncomeExpense: $type $amount $category $date $time  $mode $note"
                 )
             } while (cursor.moveToNext())
 
@@ -172,7 +186,7 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
     {
 
 
-        var db = writableDatabase
+        val db = writableDatabase
 
         val delet = "delete from StorageTb where storage_id  = '$id'"
         db.execSQL(delet)
@@ -181,5 +195,127 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
 
 
+    fun  getAllIncomeExpenses(): ArrayList<tieddata> {
+        datastore.clear()
 
+        val db = readableDatabase
+        val sql = "SELECT * FROM StorageTb"
+        val cursor = db.rawQuery(sql, null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(0)
+                val type = cursor.getInt(1)
+                val amount = cursor.getString(2)
+                val category = cursor.getString(3)
+                val date = cursor.getString(4)
+                val time = cursor.getString(5)
+                val mode = cursor.getString(6)
+                val note = cursor.getString(7)
+
+                val data = tieddata(id, type, amount, category, date, time, mode, note)
+                datastore.add(data)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        return datastore
+    }
+
+
+
+
+
+    fun generateIncomeReport(pieChart: PieChart, totalIncomeTextView: TextView) {
+        // Retrieve income data from SQLite database
+        val incomeDat = getAllIncomeExpenses().filter { it.type == 1 }
+
+        // Calculate total income amount
+        var totalIncome = 0.0
+        incomeDat.forEach { entry ->
+            totalIncome += entry.amount.toDouble()
+        }
+
+        // Create pie chart entries for income
+        val incomeEntries = ArrayList<PieEntry>()
+        incomeDat.forEach { entry ->
+            val pieEntry = PieEntry(entry.amount.toFloat(), entry.note)
+            incomeEntries.add(pieEntry)
+        }
+
+        // Create pie chart dataset for income
+        val incomeDataSet = PieDataSet(incomeEntries, "")
+        incomeDataSet.colors = getChartColors(incomeEntries.size)
+
+        // Create pie chart data for income
+        val incomeData = PieData(incomeDataSet)
+        incomeData.setValueTextSize(12f)
+        incomeData.setValueTextColor(Color.BLACK)
+
+        // Set pie chart properties for income
+        pieChart.data = incomeData
+        pieChart.description.isEnabled = false
+        pieChart.isRotationEnabled = true
+        pieChart.isHighlightPerTapEnabled = true
+        pieChart.legend.isEnabled = true
+        pieChart.legend.textSize = 14f
+        pieChart.animateY(1000)
+
+        // Set total income text without any currency symbol
+        totalIncomeTextView.text = "Total Income: ${totalIncome}"
+    }
+
+
+
+    fun generateExpenseReport(pieChart: PieChart, totalExpenseTextView: TextView) {
+        // Retrieve expense data from SQLite database
+        val expenseDat = getAllIncomeExpenses().filter { it.type == 2 }
+
+        // Calculate total expense amount
+        var totalExpense = 0.0
+        expenseDat.forEach { entry ->
+            totalExpense += entry.amount.toDouble()
+        }
+
+        // Create pie chart entries for expenses
+        val expenseEntries = ArrayList<PieEntry>()
+        expenseDat.forEach { entry ->
+            val pieEntry = PieEntry(entry.amount.toFloat(), entry.note)
+            expenseEntries.add(pieEntry)
+        }
+
+        // Create pie chart dataset for expenses
+        val expenseDataSet = PieDataSet(expenseEntries, "")
+        expenseDataSet.colors = getChartColors(expenseEntries.size)
+
+        // Create pie chart data for expenses
+        val expenseData = PieData(expenseDataSet)
+        expenseData.setValueTextSize(12f)
+        expenseData.setValueTextColor(Color.BLACK)
+
+        // Set pie chart properties for expenses
+        pieChart.data = expenseData
+        pieChart.description.isEnabled = false
+        pieChart.isRotationEnabled = true
+        pieChart.isHighlightPerTapEnabled = true
+        pieChart.legend.isEnabled = true
+        pieChart.legend.textSize = 14f
+        pieChart.animateY(1000)
+
+        totalExpenseTextView.text = "Total Expense: $totalExpense"
+    }
+
+
+
+}
+
+
+private fun getChartColors(size: Int): ArrayList<Int> {
+    val colors = ArrayList<Int>()
+    val random = Random()
+    for (i in 0 until size) {
+        val color = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256))
+        colors.add(color)
+    }
+    return colors
 }

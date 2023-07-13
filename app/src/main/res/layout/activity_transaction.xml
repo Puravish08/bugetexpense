@@ -1,172 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".TransactionActivity"
-    android:orientation="vertical">
-
-
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#19688B">
-
-
-
-        <ImageView
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:src="@drawable/baseline_arrow_back_24"
-            android:id="@+id/imgback"
-            />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="Transaction Recodes"
-            android:textSize="@dimen/_18sdp"
-            android:id="@+id/txtTitle"
-            android:layout_marginLeft="@dimen/_2sdp"/>
-
-
-        <ImageView
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:src="@drawable/baseline_filter_alt_24"
-            android:layout_marginLeft="@dimen/_35sdp"
-            android:id="@+id/imgok"
-            />
-        <ImageView
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:src="@drawable/baseline_exit_to_app_24"
-            android:layout_marginLeft="@dimen/_2sdp"
-            android:id="@+id/imgdone"
-            />
-
-
-
-
-    </androidx.appcompat.widget.Toolbar>
-
+    android:background="@color/black"
+    android:orientation="vertical"
+    tools:context=".TransactionActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#19688B"
-        >
+        android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tools"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Balance"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_17sdp"
-            />
+            android:background="#8B3919">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:weightSum="3"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imgback"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/baseline_arrow_back_24" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:text="Transaction Records"
+                android:layout_weight="2.5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp" />
+
+            <ImageView
+                android:id="@+id/imgok"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_35sdp"
+                android:src="@drawable/baseline_filter_alt_24"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imgdone"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_12sdp"
+                android:src="@drawable/baseline_exit_to_app_24" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
 
 
-
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tools3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_17sdp"
-            android:textColor="@color/white"
-            android:text="Rs.2.00"
-            android:layout_marginLeft="@dimen/_150sdp"/>
+            android:background="#8B3919">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Income"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/income"
+               android:layout_gravity="end"
+                android:layout_marginRight="@dimen/_12sdp"
+                android:text="Rs 2.00"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sdp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tools4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8B3919">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expenses"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/_12sdp"
+                android:text="Rs 2.00"
+                android:id="@+id/expense"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sdp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tools2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8B3919">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Balance"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/_12sdp"
+                android:text="Rs 2.00"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_17sdp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
 
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvtransaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp" />
 
 
     </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#19688B"
-        >
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Income"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_17sdp"
-            />
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/_17sdp"
-            android:textColor="@color/white"
-            android:text="Rs.2.00"
-            android:layout_marginLeft="@dimen/_150sdp"/>
-
-
-
-
-    </LinearLayout>
-
-
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#19688B"
-        >
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Expenses"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_17sdp"
-            />
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/_17sdp"
-            android:textColor="@color/white"
-            android:text="Rs.2.00"
-            android:layout_marginLeft="@dimen/_130sdp"/>
-
-
-
-
-    </LinearLayout>
-
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rcvtransaction"
-        android:layout_marginTop="@dimen/_20sdp"
-        />
-
-
-
-
-
 
 
 </LinearLayout>

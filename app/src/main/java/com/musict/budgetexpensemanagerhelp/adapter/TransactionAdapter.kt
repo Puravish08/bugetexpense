@@ -50,14 +50,22 @@ class TransactionAdapter(var datastorage  :ArrayList<tieddata>,var invo : ((tied
 
     override fun onBindViewHolder(holder: myViewHolder, position: Int) {
 
-        holder.txtmoney.setText(datastorage[position].amount)
-        holder.txtnote.setText(datastorage[position].note)
-        holder.txtccategory.setText(datastorage[position].category)
-        holder.txttime.setText(datastorage[position].time)
-        holder.txttype.setText(datastorage[position].type.toString())
-        holder.txtdate.setText(datastorage[position].date)
-        holder.txtmode.setText(datastorage[position].mode)
+        holder.txtmoney.text = datastorage[position].amount
+        holder.txtnote.text = datastorage[position].note
+        holder.txtccategory.text = datastorage[position].category
+        holder.txttime.text = datastorage[position].time
+        holder.txttype.text = datastorage[position].type.toString()
+        holder.txtdate.text = datastorage[position].date
+        holder.txtmode.text = datastorage[position].mode
 
+
+        if (datastorage.get(position).amount.toString().toInt()>0) {
+            holder.txtmoney.setTextColor(Color.GREEN)
+        } else {
+
+            holder.txtmoney.setTextColor(Color.RED)
+
+        }
 
         // Amount colot change in category
         holder.txtmode.setTextColor(Color.parseColor("#5271ff"))

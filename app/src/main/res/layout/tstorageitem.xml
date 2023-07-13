@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:layout_marginTop="@dimen/_12ssp"
     android:orientation="vertical">
 
 
@@ -13,6 +15,7 @@
 
         <TextView
             android:layout_width="0dp"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Date"/>
@@ -22,12 +25,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="money"/>
 
 
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:text="mode"/>
 
@@ -35,6 +40,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:text="type"/>
 
@@ -42,12 +48,14 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:text="note"/>
 
 
         <TextView
             android:layout_width="0dp"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="category"/>
@@ -70,7 +78,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Date"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp" />
 
 
@@ -104,9 +112,9 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_12sdp"
                 android:text="Money"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 
             <TextView
@@ -114,9 +122,9 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
                 android:text="Mode"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
 
                 android:textSize="@dimen/_12sdp" />
 
@@ -131,7 +139,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/_20sdp"
             android:text="Type"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
+
             android:textSize="@dimen/_15sdp" />
 
 
@@ -143,7 +152,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/_18sdp"
                 android:text="Note"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 
 
@@ -157,7 +166,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/_15sdp"
             android:text="Categary"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12sdp" />
 
     </LinearLayout>
@@ -172,8 +181,8 @@
 
         <ImageView
             android:id="@+id/editUp"
-            android:layout_width="@dimen/_28sdp"
-            android:layout_height="@dimen/_28sdp"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:src="@drawable/baseline_edit_24" />
 
@@ -184,7 +193,7 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_22sdp"
             android:layout_marginLeft="@dimen/_50sdp"
-            android:src="@drawable/delete" />
+            android:src="@drawable/baseline_delete_24" />
 
 </LinearLayout>
 
