@@ -33,7 +33,7 @@
             android:id="@+id/txtmessage"
             android:gravity="center"
             android:textColor="@color/white"
-            android:background="#4B9566"/>
+            android:background="#E06A3CD6"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -53,7 +53,7 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/buttonshape"
-                android:backgroundTint="#7AAFC6"
+                android:backgroundTint="#FC8B60EF"
                 android:layout_gravity="bottom"
                 android:textColor="@color/white"
                 android:text="CANCEL"
@@ -68,7 +68,7 @@
                 android:textSize="@dimen/_14sdp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/buttonshape"
-                android:backgroundTint="#23BDA6"
+                android:backgroundTint="#E06A3CD6"
                 android:layout_gravity="bottom"
                 android:textColor="@color/white"
                 android:textStyle="bold"

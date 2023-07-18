@@ -44,6 +44,12 @@ class ModeSqlLite (context: Context) : SQLiteOpenHelper(context, "modeDb", null,
     }
 
 
+    fun clearCategories() {
+        val db = this.writableDatabase
+        db.delete("modeTb", null, null)
+        db.close()
+    }
+
     fun displaymode(): ArrayList<ModeModel> {
 
         mlist.clear()

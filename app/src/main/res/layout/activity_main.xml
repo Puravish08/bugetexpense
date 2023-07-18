@@ -9,17 +9,18 @@
     tools:context=".MainActivity"
     >
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
+
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#E06A3CD6">
+            android:background="#E06A3CD6"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,9 +81,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginHorizontal="@dimen/_22sdp"
-                android:orientation="horizontal"
-                android:visibility="invisible">
+                android:orientation="horizontal">
+
 
                 <TextView
                     android:id="@+id/incomeTextView"
@@ -92,7 +94,6 @@
                     android:text="Total Income: "
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
 
                 <TextView
                     android:id="@+id/expenseTextView"
@@ -127,8 +128,8 @@
             android:layout_marginTop="@dimen/_20sdp"
             app:cardBackgroundColor="#DAF5FF"
             app:cardCornerRadius="@dimen/_12sdp"
-
             app:cardElevation="@dimen/_8sdp">
+
 
 
             <ImageView
@@ -401,6 +402,7 @@
             </LinearLayout>
 
 
+
             <LinearLayout
                 android:id="@+id/exportreport"
                 android:layout_width="wrap_content"
@@ -413,7 +415,7 @@
                     android:layout_height="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:layout_marginRight="@dimen/_23sdp"
-                    android:src="@drawable/report" />
+                    android:src="@drawable/piechart" />
 
                 <TextView
                     android:layout_width="match_parent"

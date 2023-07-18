@@ -39,6 +39,8 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
     }
 
+
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 //
 //
@@ -59,6 +61,15 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
         db.insert("categoriesTb", null, c)
 
     }
+
+    fun clearCategories() {
+        val db = this.writableDatabase
+        db.delete("categoriesTb", null, null)
+        db.close()
+    }
+
+
+
 
 
     @SuppressLint("Recycle")
@@ -131,44 +142,39 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
     }
 
     @SuppressLint("Recycle")
-    fun displayIncomeExpense(): ArrayList<tieddata> {
+        fun displayIncomeExpense(): ArrayList<tieddata> {
 
-        datastore.clear()
-
-
-        val inexp = writableDatabase
-        val sql2 = "select * from StorageTb"
-        val cursor = inexp.rawQuery(sql2, null)
-        if (cursor.count > 0) {
-            cursor.moveToFirst()
-
-            do {
-
-               val id = cursor.getInt(0)
-               val type = cursor.getInt(1)
-               val amount = cursor.getString(2)
-               val category = cursor.getString(3)
-               val date = cursor.getString(4)
-               val time = cursor.getString(5)
-               val mode = cursor.getString(6)
-               val note = cursor.getString(7)
+            datastore.clear()
 
 
-                val modetwo = tieddata(id,type, amount, category, date, time, mode, note)
+            val inexp = writableDatabase
+            val sql2 = "select * from StorageTb"
+            val cursor = inexp.rawQuery(sql2, null)
+            if (cursor.count > 0) {
+                cursor.moveToFirst()
 
-                datastore.add(modetwo)
+                do {
 
-                Log.e(
-                    "TAG",
-                    "displayIncomeExpense: $type $amount $category $date $time  $mode $note"
-                )
-            } while (cursor.moveToNext())
+                   val id = cursor.getInt(0)
+                   val type = cursor.getInt(1)
+                   val amount = cursor.getString(2)
+                   val category = cursor.getString(3)
+                   val date = cursor.getString(4)
+                   val time = cursor.getString(5)
+                   val mode = cursor.getString(6)
+                   val note = cursor.getString(7)
 
+
+                    val modetwo = tieddata(id,type, amount, category, date, time, mode, note)
+
+                    datastore.add(modetwo)
+
+                } while (cursor.moveToNext())
+            }
+
+
+            return datastore
         }
-
-
-        return datastore
-    }
 
 
 
@@ -178,13 +184,11 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
         val db = writableDatabase
         val sqli = "update StorageTb set amount='$amount',note='$note' where storage_id='$id'"
         db.execSQL(sqli)
-//        Toast.makeText(context, "Update Success", Toast.LENGTH_SHORT).show()
+
     }
 
-
-    fun deletData (id: Int)
+ fun deletData (id: Int)
     {
-
 
         val db = writableDatabase
 
@@ -239,7 +243,7 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
         // Create pie chart entries for income
         val incomeEntries = ArrayList<PieEntry>()
         incomeDat.forEach { entry ->
-            val pieEntry = PieEntry(entry.amount.toFloat(), entry.note)
+            val pieEntry = PieEntry(entry.amount.toFloat(), entry.mode)
             incomeEntries.add(pieEntry)
         }
 
@@ -280,7 +284,7 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
         // Create pie chart entries for expenses
         val expenseEntries = ArrayList<PieEntry>()
         expenseDat.forEach { entry ->
-            val pieEntry = PieEntry(entry.amount.toFloat(), entry.note)
+            val pieEntry = PieEntry(entry.amount.toFloat(), entry.mode)
             expenseEntries.add(pieEntry)
         }
 
@@ -302,7 +306,8 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
         pieChart.legend.textSize = 14f
         pieChart.animateY(1000)
 
-        totalExpenseTextView.text = "Total Expense: $totalExpense"
+
+        totalExpenseTextView.text = "Total Expense: ${totalExpense}"
     }
 
 

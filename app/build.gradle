@@ -66,16 +66,26 @@ dependencies {
     //chart implementation
     dependencies {
 
+        implementation('com.github.PhilJay:MPAndroidChart:v3.1.0') {
+            exclude group: 'some.group', module: 'conflicting-module'
+        }
+        implementation 'io.github.muddz:styleabletoast:2.4.0' // StyleableToast library for customized Toast messages
 
-        implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+        implementation 'androidx.biometric:biometric:1.2.0-alpha05' // Biometric library for fingerprint authentication
 
-        implementation 'io.github.muddz:styleabletoast:2.4.0'
+        implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1' // Android PDF Viewer library
 
+        ext {
+            ktorVersion = '2.1.2' // Ktor version for HTTP networking
+        }
 
+        implementation "io.ktor:ktor-client-android:$ktorVersion" // Ktor Android client
+        implementation "io.ktor:ktor-client-core:$ktorVersion" // Ktor core client
+        implementation "io.ktor:ktor-client-json:$ktorVersion" // Ktor JSON serialization
+        implementation "io.ktor:ktor-client-logging:$ktorVersion" // Ktor client logging
 
-        implementation 'androidx.biometric:biometric:1.2.0-alpha05'
-
-
+        implementation 'com.google.android.gms:play-services-drive:17.0.0'
+        implementation 'com.google.android.gms:play-services-auth:20.0.0'
 
 
     }

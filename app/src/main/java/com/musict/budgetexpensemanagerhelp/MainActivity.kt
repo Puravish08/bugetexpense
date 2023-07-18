@@ -1,13 +1,18 @@
 package com.musict.budgetexpensemanagerhelp
 
 
+
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
@@ -21,15 +26,22 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.musict.budgetexpensemanagerhelp.databinding.ActivityMainBinding
+import com.musict.budgetexpensemanagerhelp.modelclass.tieddata
 import com.musict.budgetexpensemanagerhelp.sqlite.SqlLiteDataHelper
 import io.github.muddz.styleabletoast.StyleableToast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.zhanghai.android.materialratingbar.MaterialRatingBar
+import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
 
     private lateinit var pieChart: PieChart
     lateinit var binding: ActivityMainBinding
+    lateinit var db: SqlLiteDataHelper
 
     private val packageName = "com.example.myapp"
 
@@ -43,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        db = SqlLiteDataHelper(this)
         initview()
 
         pieChart = findViewById(R.id.pieChart) // Replace with the actual ID of your PieChart view
@@ -99,12 +113,9 @@ class MainActivity : AppCompatActivity() {
             val category = item.mode
             val amount = item.amount.toFloat()
 
-            if (categoryAmountMap.containsKey(category)) {
-                val sum = categoryAmountMap[category] ?: 0f
-                categoryAmountMap[category] = sum + amount
-            } else {
-                categoryAmountMap[category] = amount
-            }
+            // Remove the category check and directly accumulate amounts
+            val sum = categoryAmountMap[category] ?: 0f
+            categoryAmountMap[category] = sum + amount
 
             if (category == "income") {
                 totalIncome += amount
@@ -116,10 +127,9 @@ class MainActivity : AppCompatActivity() {
         val entries = ArrayList<PieEntry>()
 
         for (categoryAmountEntry in categoryAmountMap.entries) {
-            val category = categoryAmountEntry.key
             val amount = categoryAmountEntry.value
 
-            entries.add(PieEntry(amount, category))
+            entries.add(PieEntry(amount))
         }
 
         val dataSet = PieDataSet(entries, " ")
@@ -155,15 +165,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-
-
-
-
-
-
-
-
     private fun initview() {
 
 
@@ -188,7 +189,6 @@ class MainActivity : AppCompatActivity() {
 
         }
         binding.calanderin.setOnClickListener {
-
 
             var cal = Intent(this, CalenderActivity::class.java)
             startActivity(cal)
@@ -310,16 +310,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
         binding.exportreport.setOnClickListener {
             binding.drawalLayout.closeDrawer(GravityCompat.START)
 
-
-
-
-
-
-
+            val fromDate = "2023-07-01" // Replace with your actual from date
+            val toDate = "2023-07-31" // Replace with your actual to date
+            CoroutineScope(Dispatchers.Main).launch {
+                generatePDFReport(fromDate, toDate)
+            }
         }
 
 
@@ -328,8 +326,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.settings.setOnClickListener {
             binding.drawalLayout.closeDrawer(GravityCompat.START)
-
-
+            var se = Intent(this, SettingActivity::class.java)
+            startActivity(se)
         }
 
 
@@ -360,30 +358,30 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        binding.share.setOnClickListener {
+            binding.share.setOnClickListener {
 
-            binding.drawalLayout.closeDrawer(GravityCompat.START)
+                binding.drawalLayout.closeDrawer(GravityCompat.START)
 
-            val packageManager: PackageManager = packageManager
+                val packageManager: PackageManager = packageManager
 
-            val appPlayStoreLink =
-                "https://play.google.com/store/apps/details?id=com.musict.budgetexpensemanagerhelp"
+                val appPlayStoreLink =
+                    "https://play.google.com/store/apps/details?id=com.musict.budgetexpensemanagerhelp"
 
-            val sendIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Check out app: $appPlayStoreLink")
-                type = "text/plain"
+                val sendIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Check out app: $appPlayStoreLink")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+
+                // Verify if the app is installed on the device
+                if (isPackageInstalled(packageName, packageManager)) {
+                    shareIntent.`package` = packageName
+                }
+
+                startActivity(shareIntent)
             }
-
-            val shareIntent = Intent.createChooser(sendIntent, null)
-
-            // Verify if the app is installed on the device
-            if (isPackageInstalled(packageName, packageManager)) {
-                shareIntent.`package` = packageName
-            }
-
-            startActivity(shareIntent)
-        }
 
 
 
@@ -394,6 +392,85 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    private suspend fun generatePDFReport(fromDate: String, toDate: String) {
+        // Retrieve transaction data from SQLite database
+        val dataList = displayIncomeExpense(fromDate, toDate)
+
+        // Create the PDF document
+        val pdfDocument = PdfDocument()
+
+        // Create a page with the desired attributes
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+
+        // Start a page
+        val page = pdfDocument.startPage(pageInfo)
+
+        // Get the canvas for drawing
+        val canvas = page.canvas
+
+        // Set up paint for drawing text
+        val paint = Paint()
+        paint.textSize = 12f
+        paint.color = Color.BLACK
+
+        // Draw the transaction data on the canvas
+        var y = 50f
+        for (data in dataList) {
+            val text = "${data.type} ${data.amount} ${data.category} ${data.date} ${data.time} ${data.mode} ${data.note}"
+            canvas.drawText(text, 50f, y, paint)
+            y += 20f
+        }
+
+        // Finish the page
+        pdfDocument.finishPage(page)
+
+        // Save the PDF document to a file
+        val outputFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "report.pdf")
+        pdfDocument.writeTo(FileOutputStream(outputFile))
+
+        // Close the PDF document
+        pdfDocument.close()
+
+        // Open the ExportReportActivity and pass the PDF file path as an extra
+        val intent = Intent(this@MainActivity, ExposedReports::class.java)
+        intent.putExtra("pdfFilePath", outputFile.absolutePath)
+        startActivity(intent)
+    }
+
+
+    @SuppressLint("Range")
+    private fun displayIncomeExpense(fromDate: String, toDate: String): List<tieddata.TransactionData> {
+        val dataList = mutableListOf<tieddata.TransactionData>()
+
+        val dbHelper = SqlLiteDataHelper(this) // Replace with your actual SQLite database helper class
+        val db = dbHelper.readableDatabase
+
+        val query = "SELECT * FROM StorageTb WHERE date BETWEEN '$fromDate' AND '$toDate'"
+        val cursor = db.rawQuery(query, null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex("id"))
+                val type = cursor.getInt(cursor.getColumnIndex("type"))
+                val amount = cursor.getString(cursor.getColumnIndex("amount"))
+                val category = cursor.getString(cursor.getColumnIndex("category"))
+                val date = cursor.getString(cursor.getColumnIndex("date"))
+                val time = cursor.getString(cursor.getColumnIndex("time"))
+                val mode = cursor.getString(cursor.getColumnIndex("mode"))
+                val note = cursor.getString(cursor.getColumnIndex("note"))
+
+                val transactionData = tieddata.TransactionData(id, type, amount, category, date, time, mode, note)
+                dataList.add(transactionData)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+
+        return dataList
+    }
+
 
 
 }
@@ -418,4 +495,7 @@ private fun isPackageInstalled(packageName: String, packageManager: PackageManag
     } catch (e: PackageManager.NameNotFoundException) {
         false
     }
+
+
 }
+

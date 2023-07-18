@@ -48,8 +48,6 @@ class ReportsActivity : AppCompatActivity() {
         pieChart = PieChart(this)
 //        generateReport()
 
-
-
         dbHelper = SqlLiteDataHelper(this)
 
 

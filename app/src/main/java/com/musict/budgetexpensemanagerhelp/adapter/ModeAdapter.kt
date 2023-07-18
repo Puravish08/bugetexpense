@@ -4,11 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.musict.budgetexpensemanagerhelp.R
 import com.musict.budgetexpensemanagerhelp.modelclass.ModeModel
-import com.musict.budgetexpensemanagerhelp.modelclass.modelclass
 
 class ModeAdapter(var modeofTypes: ArrayList<ModeModel>,var n : ((String) -> Unit)) :
     RecyclerView.Adapter<ModeAdapter.myViewHolder>() {
@@ -16,6 +14,15 @@ class ModeAdapter(var modeofTypes: ArrayList<ModeModel>,var n : ((String) -> Uni
 
 
     var pos= -1
+
+
+
+
+    fun updateData(newList: List<Any>) {
+        notifyDataSetChanged()
+    }
+
+
 
 
     class myViewHolder (itemview : View) : RecyclerView.ViewHolder(itemview)

@@ -24,8 +24,8 @@ class TransactionAdapter(var datastorage  :ArrayList<tieddata>,var invo : ((tied
         var txtnote: TextView =itemview.findViewById(R.id.txtnote)
         var txtccategory: TextView =itemview.findViewById(R.id.txtccategory)
         var txttime: TextView =itemview.findViewById(R.id.txttime)
-        var txtdate: TextView =itemview.findViewById(R.id.txtdate)
-        var txttype: TextView =itemview.findViewById(R.id.txttype)
+//        var txtdate: TextView =itemview.findViewById(R.id.txtdate)
+//        var txttype: TextView =itemview.findViewById(R.id.txttype)
         var txtmode: TextView =itemview.findViewById(R.id.txtmode)
 
         var txtedit:ImageView = itemview.findViewById(R.id.editUp)
@@ -54,8 +54,8 @@ class TransactionAdapter(var datastorage  :ArrayList<tieddata>,var invo : ((tied
         holder.txtnote.text = datastorage[position].note
         holder.txtccategory.text = datastorage[position].category
         holder.txttime.text = datastorage[position].time
-        holder.txttype.text = datastorage[position].type.toString()
-        holder.txtdate.text = datastorage[position].date
+//        holder.txttype.text = datastorage[position].type.toString()
+//        holder.txtdate.text = datastorage[position].date
         holder.txtmode.text = datastorage[position].mode
 
 

@@ -71,7 +71,6 @@ class IncomeActivity : AppCompatActivity() {
     }
 
 
-
     @SuppressLint("CutPasteId")
     private fun initview2() {
 
@@ -86,12 +85,11 @@ class IncomeActivity : AppCompatActivity() {
         if (intent != null && intent.hasExtra("updateRecord")) {
 
 
-
             flag = 1
-           val newamt: String? = intent.getStringExtra("amount")
-           val notenew: String? = intent.getStringExtra("note")
-           val newtitle: String? = intent.getStringExtra("title")
-           val needonebtn: String? = intent.getStringExtra("icone")
+            val newamt: String? = intent.getStringExtra("amount")
+            val notenew: String? = intent.getStringExtra("note")
+            val newtitle: String? = intent.getStringExtra("title")
+            val needonebtn: String? = intent.getStringExtra("icone")
             storage_id = intent.getIntExtra("id", 0)
 
 
@@ -99,9 +97,6 @@ class IncomeActivity : AppCompatActivity() {
             edtnote.setText(notenew)
             txttitleincome.text = newtitle
             ibinding.imgok.text = needonebtn
-
-
-
 
 
         }
@@ -124,8 +119,6 @@ class IncomeActivity : AppCompatActivity() {
         time = currentDateAndTime
 
 
-
-
         val textv: TextView = findViewById(R.id.tvDate)
         val simpleTimeFormat = SimpleDateFormat("  dd/MM/yyyy")
         val currentTime: String = simpleTimeFormat.format(Date())
@@ -144,9 +137,7 @@ class IncomeActivity : AppCompatActivity() {
 
         ibinding.imgback.setOnClickListener {
 
-
-            var b = Intent(this, MainActivity::class.java)
-            startActivity(b)
+            onBackPressed()
         }
 
 
@@ -217,8 +208,6 @@ class IncomeActivity : AppCompatActivity() {
                         datevalue,
                         category,
                         mode
-
-
                     )
                 }
 
@@ -226,9 +215,7 @@ class IncomeActivity : AppCompatActivity() {
 
                 var intent = Intent(this, TransactionActivity::class.java)
                 startActivity(intent)
-            }
-
-        else {
+            } else {
                 Toast.makeText(this, "Enter Please Value", Toast.LENGTH_SHORT).show()
             }
         }
@@ -270,15 +257,12 @@ class IncomeActivity : AppCompatActivity() {
             val listofTypes = db1.displayCategory();
 
 
-
             val adapter = CatogoryAdapter(listofTypes) { category ->
 
                 this.category = category
                 ibinding.ttext.text = category
 
             }
-
-
 
 
             val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -336,7 +320,7 @@ class IncomeActivity : AppCompatActivity() {
             val adapter = ModeAdapter(modeofTypes) { Modee ->
 
                 mode = Modee
-                    ibinding.ttmode.text = mode
+                ibinding.ttmode.text = mode
             }
 
 
@@ -345,9 +329,7 @@ class IncomeActivity : AppCompatActivity() {
             dialogBinding.rcvmode.layoutManager = manager
             dialogBinding.rcvmode.adapter = adapter
 
-
         }
-
 
         val Page = intent.getStringExtra("Page")
         val name: String? = intent.getStringExtra("title")
@@ -378,36 +360,34 @@ class IncomeActivity : AppCompatActivity() {
         val myCalendar = Calendar.getInstance()
 
         val datapicker = DatePickerDialog.OnDateSetListener { view, year, month, dayofmonth ->
-
+            R.style.CustomDatePickerDialog
             myCalendar.set(Calendar.DAY_OF_MONTH, dayofmonth)
             myCalendar.set(Calendar.MONTH, month)
             myCalendar.set(Calendar.YEAR, year)
             updateLabal(myCalendar)
-
         }
+
+
         tvdate.setOnClickListener {
 
-            DatePickerDialog(this, datapicker, myCalendar.get(Calendar.YEAR),
-                myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show()
 
+            val datePickerDialog = DatePickerDialog(
+                this,
+                R.style.CustomDatePickerDialog, // Apply the custom style
+                datapicker,
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+
+
+            )
+
+            datePickerDialog.show()
         }
-//
-//
-//        ibinding.tvTime.setOnClickListener {
-//            val mcurrentTime = Calendar.getInstance()
-//            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
-//            val minute = mcurrentTime[Calendar.MINUTE]
-//            val mTimePicker: TimePickerDialog
-//            mTimePicker = TimePickerDialog(this@IncomeActivity,
-//                { timePicker, selectedHour, selectedMinute -> time.setText("$selectedHour:$selectedMinute") }, hour, minute,
-//                false
-//            ) //Yes 24 hour time
-//            mTimePicker.setTitle("Update Your Time")
-//            mTimePicker.show()
-//        }
+
+
 
     }
-
 
     private fun updateLabal(myCalendar: Calendar) {
 
@@ -417,8 +397,6 @@ class IncomeActivity : AppCompatActivity() {
         tvdate.setText(sdf.format(myCalendar.time))
 
     }
-
-
 
     private fun openTimePicker() {
         val calendar = Calendar.getInstance()
@@ -441,7 +419,6 @@ class IncomeActivity : AppCompatActivity() {
 
         timePickerDialog.show()
     }
-
 
 
 }

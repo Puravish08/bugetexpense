@@ -45,6 +45,9 @@
         <item name="stRadius">5dp</item>
     </style>
 
+    <style name="CustomDatePickerDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/custom_color</item> <!-- Customize the colorAccent to your desired color -->
+    </style>
 
 
 </resources>
