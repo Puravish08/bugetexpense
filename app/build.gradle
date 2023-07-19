@@ -13,7 +13,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -87,6 +87,9 @@ dependencies {
         implementation 'com.google.android.gms:play-services-drive:17.0.0'
         implementation 'com.google.android.gms:play-services-auth:20.0.0'
 
+
+        implementation 'com.github.fornewid:neumorphism:0.3.0'
+        implementation ("androidx.multidex:multidex:2.0.1")
 
     }
 

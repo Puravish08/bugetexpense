@@ -8,15 +8,18 @@
 
 
 
-    <androidx.cardview.widget.CardView
+    <soup.neumorphism.NeumorphCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="@dimen/_2sdp"
-        android:layout_margin="@dimen/_6sdp">
+        app:neumorph_shapeType="basin"
+
+        android:layout_margin="@dimen/_3sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_12sdp"
             android:layout_height="wrap_content">
 
 
@@ -27,14 +30,14 @@
 
             <TextView
                 android:id="@+id/txttime"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
+                android:layout_width="@dimen/_50sdp"
                 android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center"
                 android:text="Date"
                 android:textColor="@color/black"
                 android:layout_gravity="center"
-                android:textSize="@dimen/_10sdp" />
+                android:textSize="@dimen/_11sdp" />
 
 
 <!--            <ImageView-->
@@ -49,7 +52,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.2"
             android:layout_gravity="end"
             android:gravity="end"
             android:layout_marginRight="@dimen/_12sdp"
@@ -58,19 +61,20 @@
                 android:id="@+id/txtmoney"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/_12sdp"
+                android:layout_weight="0.8"
+                android:layout_marginRight="@dimen/_52sdp"
                 android:text="Money"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_13sdp" />
 
             <TextView
                 android:id="@+id/txtccategory"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_120sdp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="Note"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_32sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
@@ -81,10 +85,11 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:layout_gravity="end"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_weight="0.5"
             android:gravity="end"
-            android:layout_marginRight="@dimen/_12sdp"
+            android:weightSum="2"
             android:orientation="vertical">
 
             <TextView
@@ -95,13 +100,13 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
-        <TextView
-            android:id="@+id/txtmode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Categary"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            <TextView
+                android:id="@+id/txtmode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Categary"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 
 
@@ -111,14 +116,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:gravity="end"
-            android:layout_marginRight="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:orientation="vertical">
 
 
         <ImageView
             android:id="@+id/editUp"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:src="@drawable/baseline_edit_24" />
 
@@ -126,9 +131,9 @@
         <ImageView
 
             android:id="@+id/imgdel"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_marginLeft="@dimen/_10sdp"
             android:src="@drawable/delete" />
 
@@ -147,7 +152,7 @@
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </soup.neumorphism.NeumorphCardView>
 
     </LinearLayout>
 

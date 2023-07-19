@@ -4,4 +4,8 @@
     <string name="select_categories">Select Categories</string>
 
 
+    <string name="subscription_title">Subscribe to Ad-Free Version</string>
+    <string name="subscription_description">Enjoy an ad-free experience and unlock premium features.</string>
+    <string name="subscribe_button">Subscribe Now</string>
+
 </resources>

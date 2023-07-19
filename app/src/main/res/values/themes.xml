@@ -16,6 +16,12 @@
 
 
 
+        <style name="NeumorphicButtonStyle" parent="Widget.AppCompat.Button">
+            <item name="android:background">@drawable/neumorphic_button_background</item>
+            <!-- Add more style attributes here as needed -->
+        </style>
+
+
 
     <style name="CalendarViewStyle" parent="@android:style/Widget.CalendarView">
         <item name="android:dateTextAppearance">@style/CalendarDateTextAppearance</item>

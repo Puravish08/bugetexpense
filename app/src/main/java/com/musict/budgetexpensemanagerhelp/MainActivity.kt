@@ -243,6 +243,14 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        binding.subcription.setOnClickListener {
+
+
+            var r = Intent(this, SubscriptionActivity::class.java)
+            startActivity(r)
+
+        }
+
 
         binding.mode.setOnClickListener {
 
