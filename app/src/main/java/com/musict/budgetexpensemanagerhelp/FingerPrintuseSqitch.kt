@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import java.util.concurrent.Executor
@@ -24,6 +26,8 @@ class FingerPrintuseSqitch : AppCompatActivity() {
                 .setTitle("Please Verify")
                 .setDescription("User Authentication")
                 .setNegativeButtonText("Cancel")
+                .setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
+                .setDeviceCredentialAllowed(false)
                 .build()
 
             getPrompt().authenticate(promptInfo)

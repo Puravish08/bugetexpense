@@ -18,7 +18,7 @@ class TearmsShowActivity : AppCompatActivity() {
 
         bindign.btnContinue.setOnClickListener {
 
-            val i = Intent(this@TearmsShowActivity, MainActivity::class.java)
+            val i = Intent(this@TearmsShowActivity, TearmsShowActivity::class.java)
             startActivity(i)
             finish()
         }

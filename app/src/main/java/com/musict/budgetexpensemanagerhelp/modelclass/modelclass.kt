@@ -52,4 +52,15 @@ data class tieddata(var id:Int,var type : Int,var amount : String,var category: 
         override fun newArray(size: Int): Array<tieddata?> {
             return arrayOfNulls(size)
         }
-    }}
+    }
+}
+data class Transaction(
+    val id: Int,
+    val type: Int,
+    val amount: String,
+    val category: String,
+    val date: String,
+    val time: String,
+    val mode: String,
+    val note: String
+)

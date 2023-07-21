@@ -1,41 +1,31 @@
 package com.musict.budgetexpensemanagerhelp
 
-import com.musict.budgetexpensemanagerhelp.ExposedReports
-
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.graphics.pdf.PdfDocument
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
-import android.view.ViewDebug.ExportedProperty
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.musict.budgetexpensemanagerhelp.adapter.TransactionAdapter
 import com.musict.budgetexpensemanagerhelp.databinding.ActivityTransactionBinding
 import com.musict.budgetexpensemanagerhelp.databinding.TransactionDeleteDialogBinding
+import com.musict.budgetexpensemanagerhelp.modelclass.Transaction
 import com.musict.budgetexpensemanagerhelp.modelclass.tieddata
 import com.musict.budgetexpensemanagerhelp.sqlite.SqlLiteDataHelper
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.android.Android
-import io.ktor.client.request.parameter
-import io.ktor.client.request.post
-import io.ktor.http.URLBuilder
-import io.ktor.http.takeFrom
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 
 
 class TransactionActivity : AppCompatActivity() {
@@ -43,8 +33,11 @@ class TransactionActivity : AppCompatActivity() {
     lateinit var tbinding: ActivityTransactionBinding
     lateinit var db: SqlLiteDataHelper
     var datastorage = ArrayList<tieddata>()
+    var fetchTransactionData = ArrayList<Transaction>()
     var incomeExpense = ArrayList<tieddata>()
     lateinit var adapter: TransactionAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +79,7 @@ class TransactionActivity : AppCompatActivity() {
         var title = "update details"
         var donebtn = "update"
         db.displayIncomeExpense()
+
 
 
         adapter = TransactionAdapter(incomeExpense, {
@@ -147,19 +141,12 @@ class TransactionActivity : AppCompatActivity() {
             dialogmode.show()
 
         })
-
-
-
 //            val transactionData = db.displayIncomeExpense()
 //
 //            // Create an intent to start the new activity
 //            val intent = Intent(this, ExposedReports::class.java)
 //            intent.putParcelableArrayListExtra("transactionData", transactionData)
 //            startActivity(intent)
-
-
-
-
 
 
 
@@ -175,72 +162,128 @@ class TransactionActivity : AppCompatActivity() {
 
 
         tbinding.imgback.setOnClickListener {
-
             onBackPressed()
-
         }
 
         tbinding.imgdone.setOnClickListener {
-
             val transaction = Intent(this@TransactionActivity, MainActivity::class.java)
-
             startActivity(transaction)
         }
+
 
 
         tbinding.imgok.setOnClickListener {
             val fromDate = "2023-07-01" // Replace with your actual from date
             val toDate = "2023-07-31" // Replace with your actual to date
             CoroutineScope(Dispatchers.Main).launch {
-                generatePDFReport(fromDate, toDate)
+                val transactionList = fetchTransactionData(fromDate, toDate)
+
+                // Start the Export Report Activity and pass the data
+                val intent = Intent(this@TransactionActivity, ExposedReports::class.java)
+                intent.putExtra("FROM_DATE", fromDate)
+                intent.putExtra("TO_DATE", toDate)
+                intent.putExtra("TRANSACTION_LIST", ArrayList(transactionList))
+                startActivity(intent)
             }
         }
 
+
+
     }
 
-    private suspend fun generatePDFReport(fromDate: String, toDate: String) {
-        // Retrieve transaction data from SQLite database
-        val dataList = displayIncomeExpense(fromDate, toDate)
 
-        // Create the PDF document
-        val pdfDocument = PdfDocument()
+    @SuppressLint("Range")
+    private fun fetchTransactionData(fromDate: String, toDate: String): List<Transaction> {
+        val transactionList = mutableListOf<Transaction>()
 
-        // Create a page with the desired attributes
-        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+        // Get a readable database instance using the dbHandler
+        val db = db.readableDatabase
 
-        // Start a page
-        val page = pdfDocument.startPage(pageInfo)
+        // Define the table and column names
+        val tableName = "StorageTb"
+        val columns = arrayOf("`date`", "type", "amount", "category", "time", "mode", "note")
 
-        // Get the canvas for drawing
-        val canvas = page.canvas
 
-        // Set up paint for drawing text
-        val paint = Paint()
-        paint.textSize = 12f
-        paint.color = Color.BLACK
+        // Define the selection criteria (WHERE clause) to fetch data within the specified date range
+        val selection = "date BETWEEN ? AND ?"
+        val selectionArgs = arrayOf(fromDate, toDate)
 
-        // Draw the transaction data on the canvas
-        var y = 50f
-        for (data in dataList) {
-            val text = "${data.type} ${data.amount} ${data.category} ${data.date} ${data.time} ${data.mode} ${data.note}"
-            canvas.drawText(text, 50f, y, paint)
-            y += 20f
+        // Execute the query and retrieve the data using a Cursor
+        val cursor = db.query(tableName, columns, selection, selectionArgs, null, null, null)
+
+        // Parse the data from the Cursor and add it to the transactionList
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex("id"))
+                val type = cursor.getInt(cursor.getColumnIndex("type"))
+                val amount = cursor.getString(cursor.getColumnIndex("amount"))
+                val category = cursor.getString(cursor.getColumnIndex("category"))
+                val date = cursor.getString(cursor.getColumnIndex("date"))
+                val time = cursor.getString(cursor.getColumnIndex("time"))
+                val mode = cursor.getString(cursor.getColumnIndex("mode"))
+                val note = cursor.getString(cursor.getColumnIndex("note"))
+
+                val transaction = Transaction(id, type, amount, category, date, time, mode, note)
+                transactionList.add(transaction)
+            } while (cursor.moveToNext())
         }
 
-        // Finish the page
+        cursor.close()
+        db.close()
+
+        return transactionList
+    }
+
+
+
+    private suspend fun generatePDFReport(fromDate: String, toDate: String, transactionList: List<Transaction>) {
+        val pdfDocument = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas: Canvas = page.canvas
+        val paint = Paint()
+
+        val title = "Transaction Report ($fromDate to $toDate)"
+        val x = 40 // X-coordinate for the title
+        val y = 50 // Y-coordinate for the title
+
+        paint.textSize = 20f
+        paint.color = Color.BLACK
+        canvas.drawText(title, x.toFloat(), y.toFloat(), paint)
+
+        // Assuming you have a list of transactions in the transactionList variable
+        val startX = 40 // X-coordinate for the starting position of the content
+        var startY = y + 30 // Y-coordinate for the starting position of the content
+        val lineHeight = 30 // Line height for each entry
+
+        paint.textSize = 14f
+        for (transaction in transactionList) {
+            val entry = "${transaction.date} - ${transaction.amount} - ${transaction.category}"
+            canvas.drawText(entry, startX.toFloat(), startY.toFloat(), paint)
+            startY += lineHeight
+        }
+
         pdfDocument.finishPage(page)
 
-        // Save the PDF document to a file
-        val outputFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "report.pdf")
-        pdfDocument.writeTo(FileOutputStream(outputFile))
+        // Output file path for the PDF report (replace this with your desired file path)
+        val outputFilePath = "${getExternalFilesDir(null)}/transaction_report.pdf"
+        val outputFile = File(outputFilePath)
 
-        // Close the PDF document
+        try {
+            FileOutputStream(outputFile).use { outputStream ->
+                pdfDocument.writeTo(outputStream)
+            }
+
+            showToast("PDF report generated successfully.")
+        } catch (e: IOException) {
+            showToast("Error generating PDF report: ${e.message}")
+        }
+
         pdfDocument.close()
+    }
 
-        // Open the ExportReportActivity and pass the PDF file path as an extra
-        val intent = Intent(this@TransactionActivity, ExposedReports::class.java)
-        intent.putExtra("pdfFilePath", outputFile.absolutePath)
-        startActivity(intent)
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
 

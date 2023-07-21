@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         app:cardElevation="@dimen/_2sdp"
         app:neumorph_shapeType="basin"
-
         android:layout_margin="@dimen/_3sdp">
 
         <LinearLayout
@@ -28,9 +27,11 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_height="wrap_content">
 
+
+
             <TextView
                 android:id="@+id/txttime"
-                android:layout_width="@dimen/_50sdp"
+                android:layout_width="@dimen/_62sdp"
                 android:layout_marginLeft="@dimen/_8sdp"
                 android:layout_height="fill_parent"
                 android:gravity="center"
@@ -55,7 +56,7 @@
             android:layout_weight="0.2"
             android:layout_gravity="end"
             android:gravity="end"
-            android:layout_marginRight="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_2sdp"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/txtmoney"
@@ -71,9 +72,9 @@
                 android:id="@+id/txtccategory"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="Note"
-                android:paddingLeft="@dimen/_32sdp"
+                android:gravity="center"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
@@ -87,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginRight="@dimen/_8sdp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:gravity="end"
             android:weightSum="2"
             android:orientation="vertical">
@@ -97,6 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mode"
+
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 

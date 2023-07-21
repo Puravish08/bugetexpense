@@ -6,12 +6,15 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Color
+import android.os.Build
 import android.util.Log
+import android.view.SurfaceControl
 import android.widget.TextView
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.musict.budgetexpensemanagerhelp.modelclass.Transaction
 import com.musict.budgetexpensemanagerhelp.modelclass.modelclass
 import com.musict.budgetexpensemanagerhelp.modelclass.tieddata
 import java.text.NumberFormat
@@ -109,6 +112,32 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
 
     }
+    private fun fetchTransactionData(fromDate: String, toDate: String): List<Transaction> {
+        val db = readableDatabase
+        val sql = "SELECT * FROM StorageTb WHERE date BETWEEN ? AND ?"
+        val cursor = db.rawQuery(sql, arrayOf(fromDate, toDate))
+        val transactionList = mutableListOf<Transaction>()
+
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(0)
+                val type = cursor.getInt(1)
+                val amount = cursor.getString(2)
+                val category = cursor.getString(3)
+                val date = cursor.getString(4)
+                val time = cursor.getString(5)
+                val mode = cursor.getString(6)
+                val note = cursor.getString(7)
+
+                val transaction = Transaction(id, type, amount, category, date, time, mode, note)
+                transactionList.add(transaction)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        return transactionList
+    }
+
 
 
     fun insertIncomeExense(

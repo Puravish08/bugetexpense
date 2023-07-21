@@ -10,6 +10,7 @@ import com.musict.budgetexpensemanagerhelp.sqlite.SqlLiteDataHelper
 import android.os.Build
 import android.view.Window
 import android.view.WindowManager
+import com.google.android.gms.ads.interstitial.InterstitialAd
 
 // ...
 
@@ -25,6 +26,8 @@ class ReportsActivity : AppCompatActivity() {
 
 
 
+    private var mInterstitialAd: InterstitialAd?=null
+
 
 
 
@@ -32,6 +35,14 @@ class ReportsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReportsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
+
+
+
+
+
 
 
         // Set the status bar color

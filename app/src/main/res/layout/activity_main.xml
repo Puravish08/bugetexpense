@@ -6,21 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    >
+    tools:openDrawer="start"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#E06A3CD6"
-            >
+            android:background="#E06A3CD6">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,12 +53,13 @@
                     android:src="@drawable/calendar" />
 
                 <ImageView
+                    android:id="@+id/subcription"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:id="@+id/subcription"
-                    android:src="@drawable/premium" />
+                    android:src="@drawable/premium"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -81,9 +79,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginHorizontal="@dimen/_22sdp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
 
                 <TextView
@@ -129,7 +127,6 @@
             app:cardBackgroundColor="#DAF5FF"
             app:cardCornerRadius="@dimen/_12sdp"
             app:cardElevation="@dimen/_8sdp">
-
 
 
             <ImageView
@@ -186,11 +183,9 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/allTransaction"
             android:layout_width="@dimen/_280sdp"
-
             android:layout_height="@dimen/_60sdp"
             android:layout_marginLeft="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_20sdp"
@@ -208,6 +203,7 @@
 
 
             <TextView
+                android:id="@+id/txttransactionad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_80sdp"
@@ -217,7 +213,7 @@
                 android:textSize="@dimen/_20sdp" />
         </androidx.cardview.widget.CardView>
 
-       <androidx.cardview.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/reports"
             android:layout_width="@dimen/_280sdp"
             android:layout_height="@dimen/_60sdp"
@@ -247,6 +243,27 @@
 
         </androidx.cardview.widget.CardView>
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_32sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                app:adSize="BANNER"
+                android:layout_marginTop="@dimen/_18sdp"
+                app:adUnitId="ca-app-pub-5017607716747138/3726684210">
+
+            </com.google.android.gms.ads.AdView>
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -401,20 +418,19 @@
 
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:id="@+id/exportreport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_marginRight="@dimen/_23sdp"
+                    android:layout_marginEnd="@dimen/_23sdp"
                     android:src="@drawable/piechart" />
 
                 <TextView
@@ -453,15 +469,12 @@
                     android:textColor="#8D22DE"
                     android:textSize="@dimen/_15ssp" />
 
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_20sdp"
-
                 android:orientation="horizontal">
 
                 <ImageView
@@ -488,7 +501,6 @@
                     android:layout_marginLeft="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_8sdp"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
-
 
 
             </LinearLayout>

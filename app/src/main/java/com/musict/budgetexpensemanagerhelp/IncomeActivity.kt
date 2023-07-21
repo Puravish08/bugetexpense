@@ -84,7 +84,6 @@ class IncomeActivity : AppCompatActivity() {
 
         if (intent != null && intent.hasExtra("updateRecord")) {
 
-
             flag = 1
             val newamt: String? = intent.getStringExtra("amount")
             val notenew: String? = intent.getStringExtra("note")
@@ -260,6 +259,7 @@ class IncomeActivity : AppCompatActivity() {
             val adapter = CatogoryAdapter(listofTypes) { category ->
 
                 this.category = category
+
                 ibinding.ttext.text = category
 
             }
@@ -301,10 +301,8 @@ class IncomeActivity : AppCompatActivity() {
 
 
             btnsett.setOnClickListener {
-
                 Toast.makeText(this, "Data is Set", Toast.LENGTH_SHORT).show()
                 dialogmode.dismiss()
-
             }
 
             btncancelc.setOnClickListener {

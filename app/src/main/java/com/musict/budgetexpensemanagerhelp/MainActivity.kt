@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Paint
@@ -13,18 +14,28 @@ import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.musict.budgetexpensemanagerhelp.databinding.ActivityMainBinding
 import com.musict.budgetexpensemanagerhelp.modelclass.tieddata
 import com.musict.budgetexpensemanagerhelp.sqlite.SqlLiteDataHelper
@@ -42,12 +53,31 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pieChart: PieChart
     lateinit var binding: ActivityMainBinding
     lateinit var db: SqlLiteDataHelper
+    private lateinit var fingerprintPrompt: BiometricPrompt
 
+    private lateinit var sharedPreferences: SharedPreferences
     private val packageName = "com.example.myapp"
 
 
 
+
+
+    private companion object{
+        private const val TAG = "BANNER_AD_TAG"
+    }
+
+
+
+    private lateinit var madview :AdView
+
+
+
+
     private lateinit var dbHelper: SqlLiteDataHelper
+
+
+
+    private var mInterstitialAd:InterstitialAd?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,49 +86,200 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+//
+//        MobileAds.initialize(this){
+//
+//
+//        }
+
+//        loadAd()
+//
+//        binding.txttransactionad.setOnClickListener{
+//
+//            loadAd()
+//
+//            if (mInterstitialAd!=null){
+//                mInterstitialAd!!.show(this)
+//            }
+//
+//            else {
+//                Toast.makeText(this, "The ad did not load", Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }
+
+
+        MobileAds.initialize(this) {
+
+            Log.d(TAG, "onIntializeCompled: ")
+
+        }
+
+
+        madview = binding.adView
+
+        val adRequest = AdRequest.Builder().build()
+        madview.loadAd(adRequest)
+
+
+
+        madview.adListener = object : AdListener(){
+            override fun onAdClicked() {
+                super.onAdClicked()
+                Log.d(TAG, "onAdClicked: ")
+            }
+
+            override fun onAdClosed() {
+                super.onAdClosed()
+                Log.d(TAG ,"onAdClosed: ")
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                super.onAdFailedToLoad(p0)
+                Log.d(TAG, "onAdFailedToLoad: {${p0.message}")
+            }
+
+            override fun onAdImpression() {
+                super.onAdImpression()
+                Log.d(TAG, "onAdImpression: ")
+            }
+
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                Log.d(TAG, "onAdLoaded: ")
+            }
+
+            override fun onAdOpened() {
+                super.onAdOpened()
+                Log.d(TAG, "onAdOpened: ")
+            }
+
+            override fun onAdSwipeGestureClicked() {
+                super.onAdSwipeGestureClicked()
+            Log.d(TAG,"onAdSwipeGestureClick")
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         db = SqlLiteDataHelper(this)
         initview()
 
-        pieChart = findViewById(R.id.pieChart) // Replace with the actual ID of your PieChart view
+        pieChart = findViewById(R.id.pieChart)
         dbHelper = SqlLiteDataHelper(this)
         displayPieChart()
 
 
-        openAppAndNavigate(this, "com.musict.budgetexpensemanagerhelp.FingerPrintuseSqitch");
 
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
 
+        // Retrieve the saved switch state and update the switch
+        val savedSwitchState = sharedPreferences.getBoolean("fingerprintSwitchState", false)
+        binding.fingerprintlock.isChecked = savedSwitchState
 
-    }
-
-
-    private fun openAppAndNavigate(context: Context, packageName: String) {
-        val packageManager = context.packageManager
-        val intent = packageManager.getLaunchIntentForPackage(packageName)
-
-
-
-
+        // Set a listener to the Switch
         binding.fingerprintlock.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                openFingerprintActivity()
-            } else
-            {
-                openMainActivity()
+                showAppropriateScreen()
+            } else {
+                // Disable fingerprint lock or perform any desired action
             }
         }
 
+        showAppropriateScreen()
 
     }
 
-    private fun openFingerprintActivity() {
-        val intent = Intent(this, FingerPrintuseSqitch::class.java)
-        startActivity(intent)
+
+
+
+
+
+
+
+
+//    private fun  loadAd(){
+//
+//        val adUnitId ="ca-app-pub-5017607716747138/6381300547"
+//        val adRequest = AdRequest.Builder().build()
+//
+//        InterstitialAd.load(this,adUnitId,adRequest,object : InterstitialAdLoadCallback(){
+//
+//            override fun onAdLoaded(p0: InterstitialAd) {
+//
+//                mInterstitialAd=p0
+//            }
+//
+//
+//            override fun onAdFailedToLoad(adError: LoadAdError) {
+//
+//                mInterstitialAd=null
+//            }
+//
+//        })
+//
+//    }
+
+    private fun showAppropriateScreen() {
+        if (binding.fingerprintlock.isChecked && FingerprintUtils.isFingerprintSupported(this) && !FingerprintUtils.isPermissionGranted(this)) {
+            FingerprintUtils.requestFingerprintPermission(this)
+        } else if (binding.fingerprintlock.isChecked) {
+            authenticateWithFingerprint()
+        }
     }
 
-    private fun openMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+    private fun authenticateWithFingerprint() {
+        val executor = ContextCompat.getMainExecutor(this)
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                openApp()
+            }
+
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                    exitApp()
+                }
+            }
+        }
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Fingerprint Authentication")
+            .setDescription("Scan your fingerprint to unlock the app.")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        fingerprintPrompt = BiometricPrompt(this, executor, callback)
+        fingerprintPrompt.authenticate(promptInfo)
     }
+
+    private fun openApp() {
+        // Proceed to your app's main screen/activity.
+//        val intent = Intent(this, MainActivity::class.java)
+//        startActivity(intent)
+    }
+
+    private fun exitApp() {
+        finish()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Save the state of the switch to SharedPreferences
+        sharedPreferences.edit().putBoolean("fingerprintSwitchState", binding.fingerprintlock.isChecked).apply()
+    }
+
 
 
 
@@ -193,7 +374,26 @@ class MainActivity : AppCompatActivity() {
             var cal = Intent(this, CalenderActivity::class.java)
             startActivity(cal)
 
-        }
+
+
+//            MobileAds.initialize(this){
+//
+//
+//            }
+//
+//
+//                loadAd()
+//
+//                if (mInterstitialAd!=null){
+//                    mInterstitialAd!!.show(this)
+//                }
+//
+//                else {
+//                    Toast.makeText(this, "The ad did not load", Toast.LENGTH_SHORT).show()
+//                }
+
+            }
+
 
 
         var title_expence = "Add Expense"
@@ -483,6 +683,11 @@ class MainActivity : AppCompatActivity() {
 
 }
 
+
+
+
+
+
 private fun launchPlayStore(context: Context) {
     val packageName = "com.musict.budgetexpensemanagerhelp"
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
@@ -503,6 +708,11 @@ private fun isPackageInstalled(packageName: String, packageManager: PackageManag
     } catch (e: PackageManager.NameNotFoundException) {
         false
     }
+
+
+
+
+
 
 
 }
