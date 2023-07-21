@@ -94,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:text="INCOME"
+                android:textSize="@dimen/_12sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_18sdp" />
 
@@ -104,6 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:text="EXPENSE"
+                android:textSize="@dimen/_12sdp"
                 android:layout_marginLeft="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/_18sdp" />
 
@@ -146,12 +148,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_22sdp"
             android:hint="Amount"
+            android:textColorHint="@color/black"
             android:padding="@dimen/_8sdp"
             android:imeOptions="actionDone"
             android:layout_marginHorizontal="@dimen/_8sdp"
             android:inputType="number"
             android:id="@+id/edtamount"
-            android:textSize="@dimen/_18sdp"/>
+            android:textSize="@dimen/_15sdp"/>
 
 
 
@@ -195,6 +198,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_12sdp"
             android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
             android:src="@drawable/downarr"
             android:paddingStart="@dimen/_220sdp"
             android:id="@+id/imgCat"/>
@@ -203,9 +207,10 @@
             android:id="@+id/ttext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:textSize="@dimen/_15sdp"
-            android:gravity="center"
+            android:layout_marginTop="@dimen/_28sdp"
+            android:textSize="@dimen/_13sdp"
+            android:textColor="@color/black"
+      android:layout_marginLeft="@dimen/_8sdp"
             android:text="@string/select_categories" />
 
 
@@ -253,7 +258,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_12sdp"
             android:text="Time"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp" />
@@ -288,17 +293,19 @@
             android:layout_height="@dimen/_12sdp"
             android:layout_gravity="center"
             android:src="@drawable/downarr"
+            android:layout_marginTop="@dimen/_6sdp"
             android:paddingLeft="@dimen/_220sdp"
-            android:id="@+id/imgMode"/>
+            android:id="@+id/imgMode" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Payment Type"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:textSize="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:textSize="@dimen/_13sdp"
             android:id="@+id/ttmode"
+            android:textColor="@color/black"
+            android:layout_marginLeft="@dimen/_12sdp"
             />
 
 
@@ -326,6 +333,7 @@
             android:textSize="@dimen/_12sdp" />
 
 
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -333,10 +341,11 @@
             android:hint="Note"
             android:imeOptions="actionDone"
             android:id="@+id/edtnote"
+            android:textColorHint="@color/black"
             android:layout_marginHorizontal="@dimen/_8sdp"
             android:paddingBottom="@dimen/_12sdp"
             android:paddingLeft="@dimen/_8sdp"
-            android:textSize="@dimen/_15sdp"/>
+            android:textSize="@dimen/_14sdp"/>
 
 
     </androidx.cardview.widget.CardView>

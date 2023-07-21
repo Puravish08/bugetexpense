@@ -170,6 +170,11 @@ class SqlLiteDataHelper(context: Context) : SQLiteOpenHelper(context, "categorie
 
     }
 
+
+    // Assuming you have a database helper class named `DatabaseHelper` with a readable SQLiteDatabase instance.
+
+    // Function to get all income entries from the database
+
     @SuppressLint("Recycle")
         fun displayIncomeExpense(): ArrayList<tieddata> {
 

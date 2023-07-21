@@ -9,11 +9,12 @@
     tools:context=".SplachScreen">
 
 
+
     <ImageView
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
         android:layout_gravity="center"
-        android:src="@drawable/logo" />
+        android:src="@drawable/expensemangerlogo" />
 
 
 </LinearLayout>

@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 
+
         MobileAds.initialize(this) {
 
             Log.d(TAG, "onIntializeCompled: ")
@@ -232,6 +233,7 @@ class MainActivity : AppCompatActivity() {
 //
 //    }
 
+
     private fun showAppropriateScreen() {
         if (binding.fingerprintlock.isChecked && FingerprintUtils.isFingerprintSupported(this) && !FingerprintUtils.isPermissionGranted(this)) {
             FingerprintUtils.requestFingerprintPermission(this)
@@ -291,7 +293,7 @@ class MainActivity : AppCompatActivity() {
         var totalExpense = 0f
 
         for (item in data) {
-            val category = item.mode
+            val category = item.amount
             val amount = item.amount.toFloat()
 
             // Remove the category check and directly accumulate amounts

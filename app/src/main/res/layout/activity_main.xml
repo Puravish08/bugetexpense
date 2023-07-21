@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:openDrawer="start"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,8 +59,7 @@
                     android:layout_height="@dimen/_20sdp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/premium"
-                    android:visibility="gone" />
+                    android:src="@drawable/premium" />
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -74,6 +74,7 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/_200sdp" />
 
             <LinearLayout
@@ -255,9 +256,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_32sdp"
+                android:layout_marginTop="@dimen/_18sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
                 app:adSize="BANNER"
-                android:layout_marginTop="@dimen/_18sdp"
                 app:adUnitId="ca-app-pub-5017607716747138/3726684210">
 
             </com.google.android.gms.ads.AdView>
@@ -287,11 +288,11 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_25sdp"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/expensemangerlogo" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -423,8 +424,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/_20sdp"
